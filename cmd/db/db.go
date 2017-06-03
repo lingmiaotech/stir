@@ -14,7 +14,36 @@ var Command = cli.Command{
 	Name:  "db",
 	Usage: "database related operations",
 	Subcommands: []cli.Command{
+		CreateCommand,
 		UpCommand,
+		UpToCommand,
+		DownCommand,
+		DownToCommand,
+	},
+}
+
+var CreateCommand = cli.Command{
+	Name:  "create",
+	Usage: "create migration",
+	Flags: []cli.Flag{
+		cli.StringFlag{Name: "env, e", Value: "./configs/development.yaml", Usage: "configs path", EnvVar: "APP_ENV"},
+		cli.StringFlag{Name: "message, m", Value: "", Usage: "migration message"},
+	},
+	Action: func(c *cli.Context) (err error) {
+		message := c.String("message")
+		if message == "" {
+			return utils.MakeExitError(errors.New("missing_argument_message"), "preparing operation")
+		}
+
+		env := c.String("env")
+		os.Setenv("APP_ENV", env)
+
+		err = database("create", "./migrations", "message", "sql")
+		if err != nil {
+			return err
+		}
+
+		return nil
 	},
 }
 
@@ -29,6 +58,75 @@ var UpCommand = cli.Command{
 		os.Setenv("APP_ENV", env)
 
 		err = database("up", "./migrations")
+		if err != nil {
+			return err
+		}
+
+		return nil
+	},
+}
+
+var UpToCommand = cli.Command{
+	Name:  "up-to",
+	Usage: "up to specific version",
+	Flags: []cli.Flag{
+		cli.StringFlag{Name: "env, e", Value: "./configs/development.yaml", Usage: "configs path", EnvVar: "APP_ENV"},
+		cli.StringFlag{Name: "version, v", Value: "", Usage: "version of target migration"},
+	},
+	Action: func(c *cli.Context) (err error) {
+		version := c.String("version")
+		if version == "" {
+			return utils.MakeExitError(errors.New("missing_argument_version"), "preparing operation")
+		}
+
+		env := c.String("env")
+		os.Setenv("APP_ENV", env)
+
+		err = database("up-to", "./migrations", version)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	},
+}
+
+var DownCommand = cli.Command{
+	Name:  "down",
+	Usage: "down to earliest version",
+	Flags: []cli.Flag{
+		cli.StringFlag{Name: "env, e", Value: "./configs/development.yaml", Usage: "configs path", EnvVar: "APP_ENV"},
+	},
+	Action: func(c *cli.Context) (err error) {
+		env := c.String("env")
+		os.Setenv("APP_ENV", env)
+
+		err = database("down", "./migrations")
+		if err != nil {
+			return err
+		}
+
+		return nil
+	},
+}
+
+var DownToCommand = cli.Command{
+	Name:  "down-to",
+	Usage: "down to specific version",
+	Flags: []cli.Flag{
+		cli.StringFlag{Name: "env, e", Value: "./configs/development.yaml", Usage: "configs path", EnvVar: "APP_ENV"},
+		cli.StringFlag{Name: "version, v", Value: "", Usage: "version of target migration"},
+	},
+	Action: func(c *cli.Context) (err error) {
+		version := c.String("version")
+		if version == "" {
+			return utils.MakeExitError(errors.New("missing_argument_version"), "preparing operation")
+		}
+
+		env := c.String("env")
+		os.Setenv("APP_ENV", env)
+
+		err = database("down-to", "./migrations", version)
 		if err != nil {
 			return err
 		}
