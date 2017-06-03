@@ -1,0 +1,7 @@
+package: github.com/lingmiaotech/stir
+import:
+- package: github.com/urfave/cli
+  version: ~1.19.1
+- package: github.com/lingmiaotech/tonic
+- package: github.com/pressly/goose
+  version: ~1.0.0
