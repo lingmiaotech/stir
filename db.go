@@ -1,16 +1,15 @@
-package db
+package main
 
 import (
 	"database/sql"
 	"errors"
-	"github.com/lingmiaotech/stir/utils"
 	"github.com/lingmiaotech/tonic"
 	"github.com/pressly/goose"
 	"github.com/urfave/cli"
 	"os"
 )
 
-var Command = cli.Command{
+var DBCommand = cli.Command{
 	Name:  "db",
 	Usage: "database related operations",
 	Subcommands: []cli.Command{
@@ -32,7 +31,7 @@ var CreateCommand = cli.Command{
 	Action: func(c *cli.Context) (err error) {
 		message := c.String("message")
 		if message == "" {
-			return utils.MakeExitError(errors.New("missing_argument_message"), "preparing operation")
+			return MakeExitError(errors.New("missing_argument_message"), "preparing operation")
 		}
 
 		env := c.String("env")
@@ -76,7 +75,7 @@ var UpToCommand = cli.Command{
 	Action: func(c *cli.Context) (err error) {
 		version := c.String("version")
 		if version == "" {
-			return utils.MakeExitError(errors.New("missing_argument_version"), "preparing operation")
+			return MakeExitError(errors.New("missing_argument_version"), "preparing operation")
 		}
 
 		env := c.String("env")
@@ -120,7 +119,7 @@ var DownToCommand = cli.Command{
 	Action: func(c *cli.Context) (err error) {
 		version := c.String("version")
 		if version == "" {
-			return utils.MakeExitError(errors.New("missing_argument_version"), "preparing operation")
+			return MakeExitError(errors.New("missing_argument_version"), "preparing operation")
 		}
 
 		env := c.String("env")
@@ -140,32 +139,32 @@ func database(command string, dir string, args ...string) error {
 
 	err = tonic.InitConfigs()
 	if err != nil {
-		return utils.MakeExitError(err, "initializing configs file")
+		return MakeExitError(err, "initializing configs file")
 	}
 
 	driver := tonic.Configs.GetString("database.driver")
 	if driver == "" {
-		return utils.MakeExitError(errors.New("empty_driver_configs"), "initializing configs file")
+		return MakeExitError(errors.New("empty_driver_configs"), "initializing configs file")
 	}
 
 	err = goose.SetDialect(driver)
 	if err != nil {
-		return utils.MakeExitError(err, "applying dialect driver")
+		return MakeExitError(err, "applying dialect driver")
 	}
 
 	dbstring := tonic.Configs.GetString("database.dbstring")
 	if dbstring == "" {
-		return utils.MakeExitError(errors.New("empty_dbstring_config"), "initializing configs file")
+		return MakeExitError(errors.New("empty_dbstring_config"), "initializing configs file")
 	}
 
 	db, err := sql.Open(driver, dbstring)
 	if err != nil {
-		return utils.MakeExitError(err, "connecting database")
+		return MakeExitError(err, "connecting database")
 	}
 
 	err = goose.Run(command, db, dir, args...)
 	if err != nil {
-		return utils.MakeExitError(err, "executing commands")
+		return MakeExitError(err, "executing commands")
 	}
 
 	return nil

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/lingmiaotech/stir/cmd/db"
 	"github.com/urfave/cli"
 	"os"
 )
@@ -14,7 +13,7 @@ func main() {
 	app.Version = "1.0.1"
 	app.Usage = "Stir is a command line tool for tonic framework"
 	app.Commands = []cli.Command{
-		db.Command,
+		DBCommand,
 	}
 
 	app.Run(os.Args)
