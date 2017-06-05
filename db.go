@@ -13,15 +13,15 @@ var DBCommand = cli.Command{
 	Name:  "db",
 	Usage: "database related operations",
 	Subcommands: []cli.Command{
-		CreateCommand,
-		UpCommand,
-		UpToCommand,
-		DownCommand,
-		DownToCommand,
+		DBCreateCommand,
+		DBUpCommand,
+		DBUpToCommand,
+		DBDownCommand,
+		DBDownToCommand,
 	},
 }
 
-var CreateCommand = cli.Command{
+var DBCreateCommand = cli.Command{
 	Name:  "create",
 	Usage: "create migration",
 	Flags: []cli.Flag{
@@ -46,7 +46,7 @@ var CreateCommand = cli.Command{
 	},
 }
 
-var UpCommand = cli.Command{
+var DBUpCommand = cli.Command{
 	Name:  "up",
 	Usage: "up to latest version",
 	Flags: []cli.Flag{
@@ -65,7 +65,7 @@ var UpCommand = cli.Command{
 	},
 }
 
-var UpToCommand = cli.Command{
+var DBUpToCommand = cli.Command{
 	Name:  "up-to",
 	Usage: "up to specific version",
 	Flags: []cli.Flag{
@@ -90,7 +90,7 @@ var UpToCommand = cli.Command{
 	},
 }
 
-var DownCommand = cli.Command{
+var DBDownCommand = cli.Command{
 	Name:  "down",
 	Usage: "down to earliest version",
 	Flags: []cli.Flag{
@@ -109,7 +109,7 @@ var DownCommand = cli.Command{
 	},
 }
 
-var DownToCommand = cli.Command{
+var DBDownToCommand = cli.Command{
 	Name:  "down-to",
 	Usage: "down to specific version",
 	Flags: []cli.Flag{
