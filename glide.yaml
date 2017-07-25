@@ -3,5 +3,6 @@ import:
 - package: github.com/urfave/cli
   version: ~1.19.1
 - package: github.com/lingmiaotech/tonic
+  version: 0.2.0
 - package: github.com/pressly/goose
   version: ~1.0.0

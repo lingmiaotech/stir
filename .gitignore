@@ -19,10 +19,5 @@ msc/
 
 .DS_Store
 
-.vendor/
 .idea/
-
-env/
-
-*.lock
 vendor

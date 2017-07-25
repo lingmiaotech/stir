@@ -3,7 +3,7 @@ package main
 import (
 	"database/sql"
 	"errors"
-	"github.com/lingmiaotech/tonic"
+	"github.com/lingmiaotech/tonic/configs"
 	"github.com/pressly/goose"
 	"github.com/urfave/cli"
 	"os"
@@ -137,12 +137,12 @@ var DBDownToCommand = cli.Command{
 func database(command string, dir string, args ...string) error {
 	var err error
 
-	err = tonic.InitConfigs()
+	err = configs.InitConfigs()
 	if err != nil {
 		return MakeExitError(err, "initializing configs file")
 	}
 
-	driver := tonic.Configs.GetString("database.driver")
+	driver := configs.GetString("database.driver")
 	if driver == "" {
 		return MakeExitError(errors.New("empty_driver_configs"), "initializing configs file")
 	}
@@ -152,7 +152,7 @@ func database(command string, dir string, args ...string) error {
 		return MakeExitError(err, "applying dialect driver")
 	}
 
-	dbstring := tonic.Configs.GetString("database.dbstring")
+	dbstring := configs.GetString("database.dbstring")
 	if dbstring == "" {
 		return MakeExitError(errors.New("empty_dbstring_config"), "initializing configs file")
 	}
