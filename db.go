@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"errors"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/lingmiaotech/tonic/configs"
 	"github.com/pressly/goose"
 	"github.com/urfave/cli"
