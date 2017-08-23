@@ -38,7 +38,7 @@ var DBCreateCommand = cli.Command{
 		env := c.String("env")
 		os.Setenv("APP_ENV", env)
 
-		err = database("create", "./migrations", "message", "sql")
+		err = database("create", "./migrations", message, "sql")
 		if err != nil {
 			return err
 		}
