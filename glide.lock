@@ -1,5 +1,5 @@
-hash: 9a32674095f6689490b4222ebf1d790f773a3de7a98676989384dac0e36a62e4
-updated: 2017-08-16T12:39:30.199573341+08:00
+hash: 9568b53252abf5b235bce2453a77c3f26319fd82360a02b08bb1fc1ccfaf73fb
+updated: 2018-02-02T16:42:14.967139+08:00
 imports:
 - name: github.com/fsnotify/fsnotify
   version: 4da3e2cfbabc9f751898f250b49f2439785783a1
@@ -17,7 +17,7 @@ imports:
   - json/scanner
   - json/token
 - name: github.com/lingmiaotech/tonic
-  version: 65e9691bb2003b0d5337c4aa94afe953a8e1ee11
+  version: 676bf872870370732deb4758e02ac903ecd64301
   subpackages:
   - configs
 - name: github.com/magiconair/properties
