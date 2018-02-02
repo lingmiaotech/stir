@@ -8,6 +8,7 @@ import (
 	"github.com/pressly/goose"
 	"github.com/urfave/cli"
 	"os"
+	"fmt"
 )
 
 var DBCommand = cli.Command{
@@ -153,11 +154,14 @@ func database(command string, dir string, args ...string) error {
 		return MakeExitError(err, "applying dialect driver")
 	}
 
-	dbstring := configs.GetString("database.dbstring")
-	if dbstring == "" {
-		return MakeExitError(errors.New("empty_dbstring_config"), "initializing configs file")
-	}
+	appName := configs.GetString("app_name")
+	username := configs.GetString("database.username")
+	password := configs.GetDynamicString("database.password")
+	host := configs.GetString("database.host")
+	port := configs.GetString("database.port")
+	dbargs := configs.GetString("database.args")
 
+	dbstring := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?%s", username, password, host, port, appName, dbargs)
 	db, err := sql.Open(driver, dbstring)
 	if err != nil {
 		return MakeExitError(err, "connecting database")
